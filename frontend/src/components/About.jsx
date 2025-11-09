@@ -1,8 +1,26 @@
-import React from 'react';
-import { equipment } from '../data/mock';
+import React, { useState, useEffect } from 'react';
 import { Award, Target, Heart } from 'lucide-react';
+import { getEquipment } from '../services/api';
 
 const About = () => {
+  const [equipment, setEquipment] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchEquipment = async () => {
+      try {
+        setLoading(true);
+        const data = await getEquipment();
+        setEquipment(data);
+      } catch (err) {
+        console.error('Error loading equipment:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchEquipment();
+  }, []);
   return (
     <section id="about" className="section-container">
       <div className="about-layout">
