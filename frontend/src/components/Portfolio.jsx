@@ -26,6 +26,28 @@ const Portfolio = () => {
     fetchProjects();
   }, []);
 
+  if (loading) {
+    return (
+      <section id="portfolio" className="section-container">
+        <div className="section-header">
+          <h2 className="section-title">Portfolio</h2>
+          <p className="section-subtitle">Chargement...</p>
+        </div>
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section id="portfolio" className="section-container">
+        <div className="section-header">
+          <h2 className="section-title">Portfolio</h2>
+          <p className="section-subtitle">{error}</p>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section id="portfolio" className="section-container">
       <div className="section-header">
@@ -36,7 +58,7 @@ const Portfolio = () => {
       </div>
 
       <div className="portfolio-grid">
-        {portfolioProjects.map((project) => (
+        {projects.map((project) => (
           <div 
             key={project.id} 
             className="portfolio-card"
