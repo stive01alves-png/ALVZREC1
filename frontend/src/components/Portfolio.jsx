@@ -1,10 +1,30 @@
-import React, { useState } from 'react';
-import { portfolioProjects } from '../data/mock';
+import React, { useState, useEffect } from 'react';
 import { Play, X } from 'lucide-react';
 import { Dialog, DialogContent } from './ui/dialog';
+import { getProjects } from '../services/api';
 
 const Portfolio = () => {
   const [selectedProject, setSelectedProject] = useState(null);
+  const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        setLoading(true);
+        const data = await getProjects();
+        setProjects(data);
+      } catch (err) {
+        setError('Erreur lors du chargement des projets');
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProjects();
+  }, []);
 
   return (
     <section id="portfolio" className="section-container">
