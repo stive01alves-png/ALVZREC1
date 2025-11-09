@@ -72,6 +72,12 @@ async def get_status_checks():
 # Include the router in the main app
 app.include_router(api_router)
 
+# Inject database connection to route modules
+projects.set_db(db)
+testimonials.set_db(db)
+equipment.set_db(db)
+contact.set_db(db)
+
 # Include feature routers
 app.include_router(projects.router)
 app.include_router(testimonials.router)
