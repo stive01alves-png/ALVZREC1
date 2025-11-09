@@ -1,15 +1,15 @@
 from fastapi import APIRouter, HTTPException
 from typing import List
 from models import Testimonial, TestimonialCreate
-from motor.motor_asyncio import AsyncIOMotorClient
-import os
 
 router = APIRouter(prefix="/api/testimonials", tags=["testimonials"])
 
-# Database connection
-mongo_url = os.environ['MONGO_URL']
-client = AsyncIOMotorClient(mongo_url)
-db = client[os.environ['DB_NAME']]
+# Database will be injected from main server
+db = None
+
+def set_db(database):
+    global db
+    db = database
 
 @router.get("", response_model=dict)
 async def get_testimonials():
