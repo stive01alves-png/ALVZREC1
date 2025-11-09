@@ -1,17 +1,17 @@
 from fastapi import APIRouter, HTTPException
 from models import ContactMessage, ContactMessageCreate
-from motor.motor_asyncio import AsyncIOMotorClient
-import os
 import logging
 
 logger = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/api/contact", tags=["contact"])
 
-# Database connection
-mongo_url = os.environ['MONGO_URL']
-client = AsyncIOMotorClient(mongo_url)
-db = client[os.environ['DB_NAME']]
+# Database will be injected from main server
+db = None
+
+def set_db(database):
+    global db
+    db = database
 
 @router.post("", response_model=dict)
 async def submit_contact(message_data: ContactMessageCreate):
